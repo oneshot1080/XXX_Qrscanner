@@ -1,4 +1,33 @@
 {
     "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.autoImportCompletions": true
+    "python.analysis.autoImportCompletions": true,
+    "terminal.integrated.fontWeightBold": "bold",
+    "terminal.integrated.profiles.windows": {
+
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "MSYS2 MSYS": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [
+                "/c",
+                "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -msys"
+            ]
+        }
+    }
 }
