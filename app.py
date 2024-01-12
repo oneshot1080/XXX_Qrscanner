@@ -16,6 +16,7 @@ def get_and_process_data():
     data = request.get_json()
     image_data_url = data.get('image_data', '')
 
+    # Response to client
     try:
         id = process_data(image_data_url)
         if valid_member(id) == 1:
