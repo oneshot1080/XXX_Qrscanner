@@ -3,8 +3,8 @@ To use, ensure that you already installed packages required in requirements.txt.
 
 # Setting up
 1, Have python installed from https://python.org and added to path.  
-2, Download ngrok at https://ngrok.com/download and sign up a new account. Then, add ngrok to path (If you do not know how to add ngrok to path, it is in the end of this document). Open ngrok and type "ngrok config add-authtoken <token>"   
-3, Open the folder where this project is located. Open a terminal (cmd/ Windows PS) and type "pip install -r requirements.txt", after installation finished, close the terminal.  
+2, Download ngrok at https://ngrok.com/download and sign up a new account. Then, add ngrok to path (If you do not know how to add ngrok to path, it is in the end of this document). Open ngrok in a terminal (cmd/ Windows PS) and type "ngrok config add-authtoken $your-token$" (Your token should be found in the page when you first log in to ngrok)   
+3, Open the folder where this project is located. Open a terminal and type "pip install -r requirements.txt", after installation finished, close the terminal.  
 
 # From this step, no need to repeat the above steps 
 4, Open a terminal (same folder as the project) and type "ngrok http 5500"  
@@ -18,3 +18,7 @@ To use, ensure that you already installed packages required in requirements.txt.
 3, Find and click on "Environment variables"  
 4, In "System variables", double click on "Path", choose "New" and paste and copied path.  
 5, Click "OK", "OK" and "OK"  
+
+# About how to add members to the database
+1, Create an excel file named "members.xlsx" containing info of registerd members with format "FULL NAME - EMAIL - PHONE NUMBER". DO NOT add any excessive info, or else the program would crash (See sample file)
+2, Open a terminal, type "py executioner.py"
