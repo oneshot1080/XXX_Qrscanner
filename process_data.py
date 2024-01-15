@@ -46,7 +46,7 @@ def add_one(name: str, email: str, ID: str):
     curs = conn.cursor()
     query = """INSERT INTO members ('name', 'email', 'id', 'access') VALUES (?, ?, ?, ?)"""
     try:
-        curs.execute(query, ({name}, {email}, {ID}, 1))
+        curs.execute(query, (name, email, ID, 1))
         conn.commit()
         curs.close()
         conn.close()
@@ -55,13 +55,17 @@ def add_one(name: str, email: str, ID: str):
     
 def add_many(path: str):
     """Add multiple members to the table from excel file
-        path: Absolute path to the excel file
+
+        path (param): Absolute path to the excel file
     """
     try:
         import pandas as pd
         df = pd.read_excel(path)
         for index, row in df.iterrows():
             name, email, sdt = row
+            print(type(name))
+            print(type(email))
+            print(type(sdt))
             ID = str(uuid.uuid5(uuid.NAMESPACE_DNS, sdt))
             add_one(name, email, ID)
     except Exception as e:
