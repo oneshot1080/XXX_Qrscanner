@@ -48,10 +48,16 @@ def add_one(name: str, email: str, ID: str):
     try:
         curs.execute(query, (name, email, ID, 1))
         conn.commit()
-        curs.close()
-        conn.close()
     except Exception as e:
         print(e)
+        query = """SELECT name FROM members WHERE id = ?"""
+        curs.execute(query, (ID,))
+        res = curs.fetchone()
+        print(f'id {ID} has been used, member {name} use the same phone number as {res}')
+    finally:
+        curs.close()
+        conn.close()
+
     
 def add_many(path: str):
     """Add multiple members to the table from excel file
@@ -63,14 +69,42 @@ def add_many(path: str):
         df = pd.read_excel(path)
         for index, row in df.iterrows():
             name, email, sdt = row
-            print(type(name))
-            print(type(email))
-            print(type(sdt))
             ID = str(uuid.uuid5(uuid.NAMESPACE_DNS, sdt))
             add_one(name, email, ID)
     except Exception as e:
         print(e)
-        
+
+def delete_member(id: str):
+    conn = sql.connect('sql.db')
+    curs = conn.cursor()
+    query = """DELETE FROM "members" WHERE id = ?"""
+    try:
+        curs.execute(query, (id,))
+        conn.commit()
+    except Exception as e:
+        print(e)
+    finally:
+        curs.close()
+        conn.close()
+
+def modify(id: str, info: str, value: str):
+    if info == 'id':
+        print("Access denied! ID can not be modified")
+        return
+    conn = sql.connect('sql.db')
+    curs = conn.cursor()
+    query = """UPDATE members SET ? = ? WHERE id = ?"""
+    try:
+        curs.execute(query, (info, value, id))
+        conn.commit()
+
+    except Exception as e:
+        print(e)
+    
+    finally:
+        curs.close()
+        conn.close()
+
 def extract_ID_and_create_QRCODE():
     conn = sql.connect('sql.db')
     curs = conn.cursor()
@@ -82,5 +116,5 @@ def extract_ID_and_create_QRCODE():
     conn.close()
     index = 1
     for ID in id_values:
-        qrcode.make(ID).save(f'{index}.png')
+        qrcode.make(ID).save(f'QRCODES/{index}.png')
         index += 1
