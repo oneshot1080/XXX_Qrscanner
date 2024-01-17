@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         } else if (data.message === 'denied') {
             showMessage('Access Denied', 'red');
         }
-    
+        video.stop();
     // Delay the next request for 2 seconds
     delayNextRequest = true;
     setTimeout(() => {

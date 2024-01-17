@@ -6,7 +6,7 @@ from io import BytesIO
 from pyzbar.pyzbar import decode
 import sqlite3 as sql
 import qrcode
-
+import ast
 
 def process_data(data: Any):
     # Extract base64-encoded image data
@@ -16,6 +16,8 @@ def process_data(data: Any):
     image = Image.open(BytesIO(image_data))
     decoded_object  = decode(image)
     data = [obj.data.decode('utf-8') for obj in decoded_object]
+    data = ast.literal_eval(data[0])
+    print(data[0])
     return data[0]
 
 def valid_member(id: str):
