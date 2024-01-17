@@ -1,4 +1,5 @@
 import base64
+import time
 from typing import Any
 import uuid
 from PIL import Image
@@ -7,6 +8,8 @@ from pyzbar.pyzbar import decode
 import sqlite3 as sql
 import qrcode
 import ast
+import threading
+
 
 def process_data(data: Any):
     # Extract base64-encoded image data
@@ -20,6 +23,16 @@ def process_data(data: Any):
     print(data[0])
     return data[0]
 
+def set_access_0_(id: str):
+    time.sleep(2)
+    conn = sql.connect('sql.db')
+    curs = conn.cursor()
+    query = """UPDATE members SET access = 0 WHERE id = ?"""
+    curs.execute(query, (id,))
+    conn.commit()
+    curs.close()
+    conn.close()
+    
 def valid_member(id: str):
     conn = sql.connect('sql.db')
     curs = conn.cursor()
@@ -34,9 +47,8 @@ def valid_member(id: str):
         return False
     else:
         if result[0] == 1:
-            query = """UPDATE members SET access = 0 WHERE id = ?"""
-            curs.execute(query, (id,))
-            conn.commit()
+            thread = threading.Thread(target=set_access_0_, args=(id,))
+            thread.start()
         curs.close()
         conn.close()
         return result[0]
