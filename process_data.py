@@ -23,6 +23,15 @@ def process_data(data: Any):
     print(data[0])
     return data[0]
 
+def set_access_0_(id: str):
+    time.sleep(2)
+    conn = sql.connect('sql.db')
+    curs = conn.cursor()
+    query = """UPDATE members SET access = 0 WHERE id = ?"""
+    curs.execute(query, (id,))
+    conn.commit()
+    curs.close()
+    conn.close()
     
 def valid_member(id: str):
     conn = sql.connect('sql.db')
@@ -38,8 +47,8 @@ def valid_member(id: str):
         return False
     else:
         if result[0] == 1:
-            # Code here
-            pass
+            thread = threading.Thread(target=set_access_0_, args=(id,))
+            thread.start()
         curs.close()
         conn.close()
         return result[0]
