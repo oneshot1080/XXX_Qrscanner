@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let delayNextRequest = false;
 
     // Open rear camera on page load
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', frameRate: {ideal: 20, max: 60} } })
         .then((stream) => {
             video.srcObject = stream;
             mediaStream = stream;

@@ -1,5 +1,6 @@
 import base64
 import time
+from turtle import fillcolor
 from typing import Any
 import uuid
 from PIL import Image
@@ -17,6 +18,7 @@ def process_data(data: Any):
     image_data = base64.b64decode(encoded_data)
 
     image = Image.open(BytesIO(image_data))
+    image.save("static/captured_image.png")
     decoded_object  = decode(image)
     data = [obj.data.decode('utf-8') for obj in decoded_object]
     data = ast.literal_eval(data[0])
@@ -83,6 +85,7 @@ def add_many(path: str):
         df = pd.read_excel(path)
         for index, row in df.iterrows():
             name, email, sdt = row
+            sdt = str(sdt)
             ID = str(uuid.uuid5(uuid.NAMESPACE_DNS, sdt))
             add_one(name, email, ID)
     except Exception as e:
@@ -119,16 +122,3 @@ def modify(id: str, info: str, value: str):
         curs.close()
         conn.close()
 
-def extract_ID_and_create_QRCODE():
-    conn = sql.connect('sql.db')
-    curs = conn.cursor()
-    query = """SELECT ID from members"""
-    curs.execute(query)
-    id_values = curs.fetchall()
-    conn.commit()
-    curs.close()
-    conn.close()
-    index = 1
-    for ID in id_values:
-        qrcode.make(ID).save(f'QRCODES/{index}.png')
-        index += 1

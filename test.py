@@ -1,0 +1,2 @@
+import qrcode
+qrcode.QRCode()
