@@ -1,6 +1,8 @@
 from PIL import Image
 import sqlite3 as sql
-import qrcode
+from QR import QR
+
+
 def extract_ID_and_create_QRCODE():
     conn = sql.connect('sql.db')
     curs = conn.cursor()
@@ -15,8 +17,7 @@ def extract_ID_and_create_QRCODE():
 
 
     for ID in id_values:
-        qr = qrcode.make(ID).save('temp.png')
-        qr = Image.open('temp.png')
+        qr = QR(ID)
         qr = qr.resize((77, 77))
         ticket.paste(qr, (352, 90))
         ticket.save(f'QRCODES/online/{index}.png')

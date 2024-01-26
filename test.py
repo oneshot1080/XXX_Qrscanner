@@ -1,2 +1,0 @@
-import qrcode
-qrcode.QRCode()
